@@ -1,4 +1,4 @@
-package de.dengpeng.assignments.tw;
+package de.dengpeng.assignments.tw.challenge;
 
 import java.util.List;
 

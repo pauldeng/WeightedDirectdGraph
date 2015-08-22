@@ -47,7 +47,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>de.dengpeng.assignments.tw.Main</mainClass>
+							<mainClass>de.dengpeng.assignments.tw.challenge.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
