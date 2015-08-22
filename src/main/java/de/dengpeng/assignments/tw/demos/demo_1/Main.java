@@ -2,7 +2,7 @@
  * This is an sample application of JGraphT SimpleDirectedWeightedGraph found in this address below:
  * http://stackoverflow.com/questions/20242961/getting-weighted-graphs-to-work-in-jgrapht
  */
-package de.dengpeng.assignments.tw.demos.demo1;
+package de.dengpeng.assignments.tw.demos.demo_1;
 
 import java.util.Scanner;
 

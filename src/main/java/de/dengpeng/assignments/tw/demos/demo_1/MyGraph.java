@@ -1,4 +1,4 @@
-package de.dengpeng.assignments.tw.demos.demo1;
+package de.dengpeng.assignments.tw.demos.demo_1;
 
 import org.jgrapht.alg.KruskalMinimumSpanningTree;
 import org.jgrapht.graph.DefaultWeightedEdge;
