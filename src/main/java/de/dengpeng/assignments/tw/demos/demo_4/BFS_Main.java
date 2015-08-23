@@ -13,6 +13,39 @@ import org.jgrapht.traverse.GraphIterator;
 
 public class BFS_Main {
 
+	static class MyListener extends TraversalListenerAdapter<String, DefaultWeightedEdge> {
+
+		DirectedGraph<String, DefaultWeightedEdge> g;
+		private boolean newComponent;
+		private String reference;
+
+		public MyListener(DirectedGraph<String, DefaultWeightedEdge> g) {
+			this.g = g;
+		}
+
+		@Override
+		public void connectedComponentStarted(ConnectedComponentTraversalEvent e) {
+			newComponent = true;
+			System.out.println(newComponent);
+		}
+
+		@Override
+		public void vertexTraversed(VertexTraversalEvent<String> e) {
+			String vertex = e.getVertex();
+
+			if (newComponent) {
+				reference = vertex;
+				newComponent = false;
+			}
+
+			int l = DijkstraShortestPath.findPathBetween(g, reference, vertex).size();
+			String x = "";
+			for (int i = 0; i < l; i++)
+				x += "\t";
+			System.out.println(x + "vertex: " + vertex);
+		}
+	}
+
 	public static void main(String[] args) {
 		SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 
@@ -50,9 +83,11 @@ public class BFS_Main {
 		graph.setEdgeWeight(e9, 7);
 
 		GraphIterator<String, DefaultWeightedEdge> iterator = new DepthFirstIterator<String, DefaultWeightedEdge>(graph);
-		
+		iterator.addTraversalListener(new MyListener(graph));
+
 		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
+			iterator.next();
+//			System.out.println(iterator.next());
 		}
 	}
 }
