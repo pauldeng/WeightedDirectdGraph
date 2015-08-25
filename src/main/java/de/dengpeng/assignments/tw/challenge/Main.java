@@ -1,5 +1,6 @@
 package de.dengpeng.assignments.tw.challenge;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,20 +50,45 @@ public class Main {
 		DefaultWeightedEdge e9 = graph.addEdge("A", "E");
 		graph.setEdgeWeight(e9, 7);
 
-		System.out.print("Output #01: ");
-		System.out.println(distanceOf("ABC"));
+		try {
+			System.out.print("Output #01: ");
+			System.out.println(distanceOf("ABC"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("NO SUCH ROUTE");
+		}
 		
-		System.out.print("Output #02: ");
-		System.out.println(distanceOf("AD"));
+		try {
+			System.out.print("Output #02: ");
+			System.out.println(distanceOf("AD"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("NO SUCH ROUTE");
+		}
 		
-		System.out.print("Output #03: ");
-		System.out.println(distanceOf("ADC"));
+		try {
+			System.out.print("Output #03: ");
+			System.out.println(distanceOf("ADC"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("NO SUCH ROUTE");
+		}
 		
-		System.out.print("Output #04: ");
-		System.out.println(distanceOf("AEBCD"));
+		try {
+			System.out.print("Output #04: ");
+			System.out.println(distanceOf("AEBCD"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("NO SUCH ROUTE");
+		}
 		
-		System.out.print("Output #05: ");
-		System.out.println(distanceOf("AED"));
+		try {
+			System.out.print("Output #05: ");
+			System.out.println(distanceOf("AED"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("NO SUCH ROUTE");
+		}
 		
 		System.out.print("Output #06: ");
 		System.out.println(numbOfTripsWithStops("C", "C", "<=", 3));
@@ -76,17 +102,20 @@ public class Main {
 		System.out.print("Output #09: ");
 		System.out.println(shortestBetween("B", "B"));
 
-//		 System.out.println("Output #10: ");
-//		 System.out.println(numOfTripsWithDistance("C", "C", "<", 30));
-
-	}
+		 System.out.print("Output #10: ");
+		 System.out.println(numOfTripsWithDistance("C", "C", "<", 30));
+	}	
 
 	private static int numOfTripsWithDistance(String fromVertex, String toVertex, String relationalOperator, int distanceValue) {
 		int numOfTrips = 0;
 		
 		if(validate(fromVertex) && validate(toVertex) && fromVertex.length() == 1 && toVertex.length() == 1){
+//			numOfTrips = numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceValue, "", 15);
 			
-			numOfTrips = numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceValue, 0);
+			List<String> fiteredList = new ArrayList<String>();
+			numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceValue, fromVertex, 15, 0, fiteredList);
+			
+			numOfTrips = fiteredList.size();
 		} else {
 			System.out.println("NO SUCH ROUTE");
 		}
@@ -94,160 +123,27 @@ public class Main {
 		return numOfTrips;
 	}
 
-	private static int numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceValue, int currentDistance) {
-		int numOfTrips = 0;
+	private static void numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceValue, String previousePath, int maxStops, int distance, List<String> fiteredList) {
 		
-		if (currentDistance > distanceValue){
-			return numOfTrips;
-		}
-		
-		Set<DefaultWeightedEdge> outgoingEdgesSet = graph.outgoingEdgesOf(fromVertex);
-		
-		for(DefaultWeightedEdge edge: outgoingEdgesSet){
-			System.out.print(fromVertex + " --> ");
+		if((distance < distanceValue) && (previousePath.lastIndexOf(toVertex) == previousePath.length()-1)){
 			
-			currentDistance += graph.getEdgeWeight(edge);
-			
-			if(toVertex.equals(graph.getEdgeTarget(edge))){
-				
-				System.out.println(toVertex);
-				
-				if (currentDistance <= distanceValue){
-					System.out.println("Hit");
-					numOfTrips++;
-				}
-				
-//				numOfTrips++;
+			if(previousePath.length() > 1){
+//				System.out.println(previousePath + ": " + distance);
+				fiteredList.add(previousePath);
 			}
-			
-//			currentDistance += graph.getEdgeWeight(edge);
-			
-//			System.out.println("1 " + graph.getEdgeTarget(edge) + " " + graph.getEdgeWeight(edge) + " " + String.valueOf(currentDistance));
-			
-			numOfTrips += numOfTripsWithDistanceRecursively1(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, currentDistance);
 		}
 		
-		return numOfTrips;
+		maxStops--;
+		
+		if(maxStops >= 0){
+			
+			for(DefaultWeightedEdge edge: graph.outgoingEdgesOf(fromVertex)){
+				
+				numOfTripsWithDistanceRecursively(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, previousePath + graph.getEdgeTarget(edge), maxStops, (int) (distance + graph.getEdgeWeight(edge)), fiteredList);
+			}
+		}
 	}
 
-	private static int numOfTripsWithDistanceRecursively1(String fromVertex, String toVertex, String relationalOperator, int distanceValue, int currentDistance) {
-		int numOfTrips = 0;
-		
-		if (currentDistance > distanceValue){
-			return numOfTrips;
-		}
-		
-		Set<DefaultWeightedEdge> outgoingEdgesSet = graph.outgoingEdgesOf(fromVertex);
-		
-		for(DefaultWeightedEdge edge: outgoingEdgesSet){
-			System.out.print(fromVertex + " --> ");
-			
-			currentDistance += graph.getEdgeWeight(edge);
-			
-			if(toVertex.equals(graph.getEdgeTarget(edge))){
-				
-				System.out.println(toVertex);
-				
-				if (currentDistance <= distanceValue){
-					System.out.println("Hit");
-					numOfTrips++;
-				}
-				
-//				numOfTrips++;
-			}
-			
-//			currentDistance += graph.getEdgeWeight(edge);
-			
-//			System.out.println("1 " + graph.getEdgeTarget(edge) + " " + graph.getEdgeWeight(edge) + " " + String.valueOf(currentDistance));
-			
-			numOfTrips += numOfTripsWithDistanceRecursively2(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, currentDistance);
-		}
-		
-		return numOfTrips;
-	}
-	
-	private static int numOfTripsWithDistanceRecursively2(String fromVertex, String toVertex, String relationalOperator, int distanceValue, int currentDistance) {
-		int numOfTrips = 0;
-		
-		if (currentDistance > distanceValue){
-			return numOfTrips;
-		}
-		
-		Set<DefaultWeightedEdge> outgoingEdgesSet = graph.outgoingEdgesOf(fromVertex);
-		
-		for(DefaultWeightedEdge edge: outgoingEdgesSet){
-			System.out.print(fromVertex + " --> ");
-			
-			currentDistance += graph.getEdgeWeight(edge);
-			
-			if(toVertex.equals(graph.getEdgeTarget(edge))){
-				
-				System.out.println(toVertex);
-				
-				if (currentDistance <= distanceValue){
-					System.out.println("Hit");
-					numOfTrips++;
-				}
-				
-//				numOfTrips++;
-			}
-			
-//			currentDistance += graph.getEdgeWeight(edge);
-			
-//			System.out.println("1 " + graph.getEdgeTarget(edge) + " " + graph.getEdgeWeight(edge) + " " + String.valueOf(currentDistance));
-			
-			numOfTrips += numOfTripsWithDistanceRecursively3(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, currentDistance);
-		}
-		
-		return numOfTrips;
-	}
-	
-	private static int numOfTripsWithDistanceRecursively3(String fromVertex, String toVertex, String relationalOperator, int distanceValue, int currentDistance) {
-		int numOfTrips = 0;
-		
-		if (currentDistance > distanceValue){
-			return numOfTrips;
-		}
-		
-		Set<DefaultWeightedEdge> outgoingEdgesSet = graph.outgoingEdgesOf(fromVertex);
-		
-		for(DefaultWeightedEdge edge: outgoingEdgesSet){
-			System.out.print(fromVertex + " --> ");
-			
-			currentDistance += graph.getEdgeWeight(edge);
-			
-			if(toVertex.equals(graph.getEdgeTarget(edge))){
-				
-				System.out.println(toVertex);
-				
-				if (currentDistance <= distanceValue){
-					System.out.println("Hit");
-					numOfTrips++;
-				}else{
-					System.out.println("too many");
-				}
-				
-//				numOfTrips++;
-			}
-			
-//			currentDistance += graph.getEdgeWeight(edge);
-			
-//			System.out.println("1 " + graph.getEdgeTarget(edge) + " " + graph.getEdgeWeight(edge) + " " + String.valueOf(currentDistance));
-			
-//			numOfTrips += numOfTripsWithDistanceRecursively1(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, currentDistance);
-		}
-		
-		return numOfTrips;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private static int numbOfTripsWithStops(String fromVertex, String toVertex, String relationalOperator, int numOfStops) {
 		int numOfTrips = 0;
 		
@@ -303,15 +199,8 @@ public class Main {
 
 		return numOfTrips;
 	}
-	
-	
-	
-	
-	
-	
-	
 
-	private static int distanceOf(String route) {
+	private static int distanceOf(String route) throws Exception {
 		int distance = 0;
 		
 		if(validate(route) == true){
@@ -319,8 +208,9 @@ public class Main {
 				
 				DefaultWeightedEdge edge = graph.getEdge(String.valueOf(route.charAt(i)), String.valueOf(route.charAt(i+1)));
 				if(edge == null){
-					System.out.println("NO SUCH ROUTE");
-					break;
+//					System.out.println("NO SUCH ROUTE");
+					throw new Exception("NO SUCH ROUTE");
+//					break;
 				}
 				
 				distance += graph.getEdgeWeight(edge);
@@ -377,5 +267,4 @@ public class Main {
 
 		return distance;
 	}
-
 }
