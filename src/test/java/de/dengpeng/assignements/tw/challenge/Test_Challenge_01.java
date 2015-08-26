@@ -8,7 +8,7 @@ import org.junit.Test;
 import de.dengpeng.assignments.tw.challenge.TWGraph;
 
 
-public class ChallengeTest_01 {
+public class Test_Challenge_01 {
 	
 	static TWGraph graph;
 
