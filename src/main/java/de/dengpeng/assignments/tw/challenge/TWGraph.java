@@ -1,11 +1,21 @@
 package de.dengpeng.assignments.tw.challenge;
 
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+
 import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.ext.ComponentAttributeProvider;
+import org.jgrapht.ext.DOTExporter;
+import org.jgrapht.ext.IntegerNameProvider;
+import org.jgrapht.ext.StringNameProvider;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
@@ -198,4 +208,20 @@ public class TWGraph {
 	
 	
 
+	public void exportDOT(int lineNumber) throws IOException {
+	    IntegerNameProvider<String> p1=new IntegerNameProvider<String>();
+	    StringNameProvider<String> p2=new StringNameProvider<String>();
+	    ComponentAttributeProvider<DefaultWeightedEdge> p4 =
+	       new ComponentAttributeProvider<DefaultWeightedEdge>() {
+	            public Map<String, String> getComponentAttributes(DefaultWeightedEdge e) {
+	                Map<String, String> map =new LinkedHashMap<String, String>();
+	                map.put("label", Integer.toString((int)graph.getEdgeWeight(e)));
+	                return map;
+	            }
+	       };
+	    DOTExporter<String, DefaultWeightedEdge> export=new DOTExporter<String, DefaultWeightedEdge>(p1, p2, null, null, p4);
+	    try {
+	        export.export(new FileWriter("graph_" + String.valueOf(lineNumber) + ".gv"), graph);
+	    }catch (IOException ex){}
+	}
 }

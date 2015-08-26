@@ -21,10 +21,16 @@ public class Main {
 		try {
 			CSVReader reader = new CSVReader(new FileReader(filePath));
 			String[] nextLine;
+			
+			// the number of line in the CSV file
+			int lineNumber = 0;
 			while ((nextLine = reader.readNext()) != null) {
 				
 				// build the graph
 				TWGraph graph = new TWGraph(nextLine);
+				
+				graph.exportDOT(lineNumber);
+				lineNumber++;
 				
 				try {
 					System.out.print("Output #01: ");
