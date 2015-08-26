@@ -157,14 +157,22 @@ public class TWGraph {
 		return distance;
 	}
 
-	public int numOfTripsWithDistance(String fromVertex, String toVertex, String relationalOperator, int distanceValue) {
+	public int numOfTripsWithDistance(String fromVertex, String toVertex, String relationalOperator, int distanceThreshold) {
 		int numOfTrips = 0;
 		
 		if(validate(fromVertex) && validate(toVertex) && fromVertex.length() == 1 && toVertex.length() == 1){
 //			numOfTrips = numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceValue, "", 15);
 			
+			int[] weights = new int[graph.edgeSet().size()];
+			int i=0;
+			for(DefaultWeightedEdge edge : graph.edgeSet()){
+				weights[i] = (int) graph.getEdgeWeight(edge);
+				i++;
+			}
+			int minDistance = Ints.min(weights);
+						
 			List<String> fiteredList = new ArrayList<String>();
-			numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceValue, fromVertex, 15, 0, fiteredList);
+			numOfTripsWithDistanceRecursively(fromVertex, toVertex, relationalOperator, distanceThreshold, fromVertex, distanceThreshold/minDistance, 0, fiteredList);
 			
 			numOfTrips = fiteredList.size();
 		} else {
@@ -174,13 +182,13 @@ public class TWGraph {
 		return numOfTrips;
 	}
 
-	private void numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceValue, String previousePath, int maxStops, int distance, List<String> fiteredList) {
+	private void numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceThreshold, String previousePath, int maxStops, int currentDistance, List<String> fiteredPathList) {
 		
-		if((distance < distanceValue) && (previousePath.lastIndexOf(toVertex) == previousePath.length()-1)){
+		if((currentDistance < distanceThreshold) && (previousePath.lastIndexOf(toVertex) == previousePath.length()-1)){
 			
 			if(previousePath.length() > 1){
 //				System.out.println(previousePath + ": " + distance);
-				fiteredList.add(previousePath);
+				fiteredPathList.add(previousePath);
 			}
 		}
 		
@@ -190,7 +198,7 @@ public class TWGraph {
 			
 			for(DefaultWeightedEdge edge: graph.outgoingEdgesOf(fromVertex)){
 				
-				numOfTripsWithDistanceRecursively(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceValue, previousePath + graph.getEdgeTarget(edge), maxStops, (int) (distance + graph.getEdgeWeight(edge)), fiteredList);
+				numOfTripsWithDistanceRecursively(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceThreshold, previousePath + graph.getEdgeTarget(edge), maxStops, (int) (currentDistance + graph.getEdgeWeight(edge)), fiteredPathList);
 			}
 		}
 	}
