@@ -1,14 +1,9 @@
 package de.dengpeng.assignments.tw.challenge;
 
 import java.io.FileReader;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
-
 import au.com.bytecode.opencsv.CSVReader;
 
 public class Main {
-
-	static SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph;
 
 	public static void main(String[] args) {
 		// parse the command line parameters
@@ -29,11 +24,11 @@ public class Main {
 			while ((nextLine = reader.readNext()) != null) {
 				
 				// build the graph
-				TWGraph gr = new TWGraph(nextLine);
+				TWGraph graph = new TWGraph(nextLine);
 				
 				try {
 					System.out.print("Output #01: ");
-					System.out.println(gr.distanceOf("ABC"));
+					System.out.println(graph.distanceOf("ABC"));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("NO SUCH ROUTE");
@@ -42,7 +37,7 @@ public class Main {
 				
 				try {
 					System.out.print("Output #02: ");
-					System.out.println(gr.distanceOf("AD"));
+					System.out.println(graph.distanceOf("AD"));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("NO SUCH ROUTE");
@@ -50,7 +45,7 @@ public class Main {
 
 				try {
 					System.out.print("Output #03: ");
-					System.out.println(gr.distanceOf("ADC"));
+					System.out.println(graph.distanceOf("ADC"));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("NO SUCH ROUTE");
@@ -58,7 +53,7 @@ public class Main {
 
 				try {
 					System.out.print("Output #04: ");
-					System.out.println(gr.distanceOf("AEBCD"));
+					System.out.println(graph.distanceOf("AEBCD"));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("NO SUCH ROUTE");
@@ -66,27 +61,27 @@ public class Main {
 
 				try {
 					System.out.print("Output #05: ");
-					System.out.println(gr.distanceOf("AED"));
+					System.out.println(graph.distanceOf("AED"));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("NO SUCH ROUTE");
 				}
 				
 				System.out.print("Output #06: ");
-				System.out.println(gr.numbOfTripsWithStops("C", "C", "<=", 3));
+				System.out.println(graph.numbOfTripsWithStops("C", "C", "<=", 3));
 				
 				
 				System.out.print("Output #07: ");
-				System.out.println(gr.numbOfTripsWithStops("A", "C", "==", 4));
+				System.out.println(graph.numbOfTripsWithStops("A", "C", "==", 4));
 				
 				System.out.print("Output #08: ");
-				System.out.println(gr.shortestBetween("A", "C"));
+				System.out.println(graph.shortestBetween("A", "C"));
 		
 				System.out.print("Output #09: ");
-				System.out.println(gr.shortestBetween("B", "B"));
+				System.out.println(graph.shortestBetween("B", "B"));
 				
 				 System.out.print("Output #10: ");
-				 System.out.println(gr.numOfTripsWithDistance("C", "C", "<", 30));
+				 System.out.println(graph.numOfTripsWithDistance("C", "C", "<", 30));
 			}
 			reader.close();
 		} catch (Exception ex) {
