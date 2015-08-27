@@ -24,6 +24,7 @@ import com.google.common.primitives.Ints;
 public class TWGraph {
 	
 	private final SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph;
+	public final static int EXTRA_TIME_PER_STATION =2;
 
 	public TWGraph(String[] graphDef) {
 		graph = new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
@@ -231,5 +232,22 @@ public class TWGraph {
 	    try {
 	        export.export(new FileWriter("graph_" + String.valueOf(lineNumber) + ".gv"), graph);
 	    }catch (IOException ex){}
+	}
+	
+	public int caculateTime(String route) throws Exception {
+		int mins = 0;
+		
+		mins = distanceOf(route);
+		
+		mins = numberOfStopsWithWaitTime(mins, route.length());
+		// the start node and finish node do not require extra time
+		
+
+		return mins;
+	}
+	private int numberOfStopsWithWaitTime(int route, int numberOfStations) {
+		// TODO Auto-generated method stub
+		// magic number 2 here are the start and end node
+		return route = route + (numberOfStations - 2) * EXTRA_TIME_PER_STATION;
 	}
 }

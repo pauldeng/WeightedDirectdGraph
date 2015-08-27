@@ -72,4 +72,10 @@ public class Test_Challenge_01 {
 		int numRoutesWithin = graph.numOfTripsWithDistance("C", "C", "<", 30);
 		assertEquals(7, numRoutesWithin);
 	}
+	
+	@Test
+	public void stopsFor2Min() throws Exception {
+		int minutes = graph.caculateTime("ABC");
+		assertEquals(11, minutes);
+	}
 }
