@@ -7,17 +7,36 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * The Class CommandLineOptions.
+ * 
+ * This class helps parsing command line arguments 
+ */
 public class CommandLineOptions {
 
+	/** The command line parser. */
 	private CommandLineParser parser;
+	
+	/** The command line. */
 	private CommandLine line;
 
+	/** The input file path. */
 	private String inputFilePath;
 
+	/**
+	 * Gets the input file path.
+	 *
+	 * @return the input file path
+	 */
 	public String getInputFilePath() {
 		return inputFilePath;
 	}
 
+	/**
+	 * Instantiates a new command line options.
+	 *
+	 * @param args the command line arguments
+	 */
 	public CommandLineOptions(String[] args) {
 		// create the cli parser
 		parser = new DefaultParser();
@@ -25,7 +44,7 @@ public class CommandLineOptions {
 		// create Options object
 		Options options = new Options();
 
-		// add t option
+		// add options
 		options.addOption("input", true, "Input file path");
 		options.addOption("help", false, "How to use");
 
@@ -42,7 +61,6 @@ public class CommandLineOptions {
 				formatter.printHelp("graphproblem", options);
 			}
 		} catch (ParseException exp) {
-			// TODO Auto-generated catch block
 			System.out.println("Unexpected exception:" + exp.getMessage());
 		}
 	}

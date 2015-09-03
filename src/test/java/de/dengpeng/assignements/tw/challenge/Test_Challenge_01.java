@@ -75,7 +75,7 @@ public class Test_Challenge_01 {
 	
 	@Test
 	public void stopsFor2Min() throws Exception {
-		int minutes = graph.caculateTime("ABC");
+		int minutes = graph.calculateTime("ABC");
 		assertEquals(11, minutes);
 	}
 }

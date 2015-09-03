@@ -3,8 +3,17 @@ package de.dengpeng.assignments.tw.challenge;
 import java.io.FileReader;
 import au.com.bytecode.opencsv.CSVReader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 public class Main {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		// parse the command line parameters
 		CommandLineOptions cmdLine = new CommandLineOptions(args);
@@ -91,7 +100,6 @@ public class Main {
 			}
 			reader.close();
 		} catch (Exception ex) {
-			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
 	}	

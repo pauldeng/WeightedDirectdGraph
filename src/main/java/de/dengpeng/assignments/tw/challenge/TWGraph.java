@@ -21,11 +21,27 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
 
+/**
+ * The Class TWGraph.
+ * 
+ * This class defines the commute graph based on the problem
+ */
 public class TWGraph {
 	
+	/** The graph. */
 	private final SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph;
+	
+	/** 
+	 * The Constant transfer time of each train station.
+	 * Start and destination station do not need this extra transfer time.
+	 */
 	public final static int EXTRA_TIME_PER_STATION =2;
 
+	/**
+	 * Instantiates a new commute graph.
+	 *
+	 * @param graphDef the commute graph
+	 */
 	public TWGraph(String[] graphDef) {
 		graph = new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		
@@ -45,6 +61,13 @@ public class TWGraph {
 		}
 	}
 
+	/**
+	 * Distance of given route
+	 *
+	 * @param route the given route
+	 * @return the distance
+	 * @throws Exception the exception
+	 */
 	public int distanceOf(String route) throws Exception {
 		int distance = 0;
 		
@@ -68,6 +91,17 @@ public class TWGraph {
 		return distance;
 	}
 
+	/**
+	 * Number of trips which meets the condition of given stops.
+	 * 
+	 * This is the interface method and it will actually call numbOfTripsWithStopsRecursively to compute.
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @param relationalOperator the relational operator, e.g. >, >=, <, <=, ==
+	 * @param numOfStops the number of stops
+	 * @return the number of possible trips which met the given stop condition
+	 */
 	public int numbOfTripsWithStops(String fromVertex, String toVertex, String relationalOperator, int numOfStops) {
 		int numOfTrips = 0;
 		
@@ -81,6 +115,17 @@ public class TWGraph {
 		return numOfTrips;
 	}
 	
+	/**
+	 * Number of trips which meets the condition of given stops.
+	 * 
+	 * This is the implementation of numbOfTripsWithStops.
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @param relationalOperator the relational operator, e.g. >, >=, <, <=, ==
+	 * @param numOfStops the number of stops
+	 * @return the number of possible trips which met the given stop condition
+	 */
 	private int numbOfTripsWithStopsRecursively(String fromVertex, String toVertex, String relationalOperator, int numOfStops) {
 		int numOfTrips = 0;
 		
@@ -124,6 +169,15 @@ public class TWGraph {
 		return numOfTrips;
 	}
 
+	/**
+	 * Shortest distance between 2 stations.
+	 * 
+	 * This method find the shortest distance between 2 stations. The 2 stations can be the same station (a loop).
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @return the distance of shortest route
+	 */
 	public int shortestBetween(String fromVertex, String toVertex) {
 		int distance = 0;
 
@@ -146,6 +200,15 @@ public class TWGraph {
 		return distance;
 	}
 
+	/**
+	 * Shortest between 2 different stations.
+	 * 
+	 * This method find the shortest distance between 2 different stations. The 2 stations cannot be the same station.
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @return the distance of shortest route
+	 */
 	private int shortestBetweenDifferentVertices(String fromVertex, String toVertex) {
 		int distance = 0;
 
@@ -158,6 +221,17 @@ public class TWGraph {
 		return distance;
 	}
 
+	/**
+	 * Number of trips with given distance condition.
+	 * 
+	 * This is interface method and it will call numOfTripsWithDistanceRecursively to compute.
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @param relationalOperator the relational operator, e.g. >, >=, <, <=, ==
+	 * @param distanceThreshold the distance threshold
+	 * @return the number of trips which met the given distance condition
+	 */
 	public int numOfTripsWithDistance(String fromVertex, String toVertex, String relationalOperator, int distanceThreshold) {
 		int numOfTrips = 0;
 		
@@ -183,13 +257,27 @@ public class TWGraph {
 		return numOfTrips;
 	}
 
-	private void numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceThreshold, String previousePath, int maxStops, int currentDistance, List<String> fiteredPathList) {
+	/**
+	 * Number of trips with given distance condition.
+	 * 
+	 * This is implementation of method numOfTripsWithDistance.
+	 *
+	 * @param fromVertex the start station
+	 * @param toVertex the destination station
+	 * @param relationalOperator the relational operator, e.g. >, >=, <, <=, ==
+	 * @param distanceThreshold the distance threshold
+	 * @param previousePath the route path log
+	 * @param maxStops the max stops allowed
+	 * @param currentDistance the current distance
+	 * @param filteredPathList the filtered route path list log
+	 */
+	private void numOfTripsWithDistanceRecursively(String fromVertex, String toVertex, String relationalOperator, int distanceThreshold, String previousePath, int maxStops, int currentDistance, List<String> filteredPathList) {
 		
 		if((currentDistance < distanceThreshold) && (previousePath.lastIndexOf(toVertex) == previousePath.length()-1)){
 			
 			if(previousePath.length() > 1){
 //				System.out.println(previousePath + ": " + distance);
-				fiteredPathList.add(previousePath);
+				filteredPathList.add(previousePath);
 			}
 		}
 		
@@ -199,11 +287,17 @@ public class TWGraph {
 			
 			for(DefaultWeightedEdge edge: graph.outgoingEdgesOf(fromVertex)){
 				
-				numOfTripsWithDistanceRecursively(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceThreshold, previousePath + graph.getEdgeTarget(edge), maxStops, (int) (currentDistance + graph.getEdgeWeight(edge)), fiteredPathList);
+				numOfTripsWithDistanceRecursively(graph.getEdgeTarget(edge), toVertex, relationalOperator, distanceThreshold, previousePath + graph.getEdgeTarget(edge), maxStops, (int) (currentDistance + graph.getEdgeWeight(edge)), filteredPathList);
 			}
 		}
 	}
 	
+	/**
+	 * Validate the stations name
+	 *
+	 * @param route the route
+	 * @return true, if all routes given are valid
+	 */
 	private boolean validate(String route) {
 		boolean valid = true;
 		
@@ -217,6 +311,12 @@ public class TWGraph {
 	
 	
 
+	/**
+	 * Export dot image file
+	 *
+	 * @param lineNumber the line number
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void exportDOT(int lineNumber) throws IOException {
 	    IntegerNameProvider<String> p1=new IntegerNameProvider<String>();
 	    StringNameProvider<String> p2=new StringNameProvider<String>();
@@ -234,7 +334,14 @@ public class TWGraph {
 	    }catch (IOException ex){}
 	}
 	
-	public int caculateTime(String route) throws Exception {
+	/**
+	 * Calculate the commute time it takes with given route.
+	 *
+	 * @param route the given route
+	 * @return the time in minutes
+	 * @throws Exception the exception
+	 */
+	public int calculateTime(String route) throws Exception {
 		int mins = 0;
 		
 		mins = distanceOf(route);
@@ -245,6 +352,14 @@ public class TWGraph {
 
 		return mins;
 	}
+	
+	/**
+	 * Number of stops with wait time.
+	 *
+	 * @param route the given route
+	 * @param numberOfStations the number of stations
+	 * @return the time in minutes
+	 */
 	private int numberOfStopsWithWaitTime(int route, int numberOfStations) {
 		// TODO Auto-generated method stub
 		// magic number 2 here are the start and end node
