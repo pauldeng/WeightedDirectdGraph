@@ -1,4 +1,4 @@
-package de.dengpeng.assignements.tw.challenge;
+package de.dengpeng.assignements.tw.challenge.jbehave;
 
 import java.util.Arrays;
 import java.util.List;

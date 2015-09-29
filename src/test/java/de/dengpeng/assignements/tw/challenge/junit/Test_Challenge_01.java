@@ -1,4 +1,4 @@
-package de.dengpeng.assignements.tw.challenge;
+package de.dengpeng.assignements.tw.challenge.junit;
 
 import static org.junit.Assert.*;
 

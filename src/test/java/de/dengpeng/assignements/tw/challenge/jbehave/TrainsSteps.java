@@ -1,4 +1,4 @@
-package de.dengpeng.assignements.tw.challenge;
+package de.dengpeng.assignements.tw.challenge.jbehave;
 
 import org.jbehave.core.annotations.AfterStories;
 import org.jbehave.core.annotations.Alias;
