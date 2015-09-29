@@ -36,6 +36,10 @@ public class TWGraph {
 	 * Start and destination station do not need this extra transfer time.
 	 */
 	public final static int EXTRA_TIME_PER_STATION =2;
+	
+	
+	/** The Constant NO_SUCH_ROUTE. */
+	public final static int NO_SUCH_ROUTE = -1;
 
 	/**
 	 * Instantiates a new commute graph.
@@ -66,9 +70,8 @@ public class TWGraph {
 	 *
 	 * @param route the given route
 	 * @return the distance
-	 * @throws Exception the exception
 	 */
-	public int distanceOf(String route) throws Exception {
+	public int distanceOf(String route){
 		int distance = 0;
 		
 		if(validate(route) == true){
@@ -77,8 +80,9 @@ public class TWGraph {
 				DefaultWeightedEdge edge = graph.getEdge(String.valueOf(route.charAt(i)), String.valueOf(route.charAt(i+1)));
 				if(edge == null){
 //					System.out.println("NO SUCH ROUTE");
-					throw new Exception("NO SUCH ROUTE");
-//					break;
+//					throw new Exception("NO SUCH ROUTE");
+					distance = NO_SUCH_ROUTE;
+					break;
 				}
 				
 				distance += graph.getEdgeWeight(edge);
@@ -339,9 +343,8 @@ public class TWGraph {
 	 *
 	 * @param route the given route
 	 * @return the time in minutes
-	 * @throws Exception the exception
 	 */
-	public int calculateTime(String route) throws Exception {
+	public int calculateTime(String route){
 		int mins = 0;
 		
 		mins = distanceOf(route);
@@ -349,7 +352,6 @@ public class TWGraph {
 		mins = numberOfStopsWithWaitTime(mins, route.length());
 		// the start node and finish node do not require extra time
 		
-
 		return mins;
 	}
 	

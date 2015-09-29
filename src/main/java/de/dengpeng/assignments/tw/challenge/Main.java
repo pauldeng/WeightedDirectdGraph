@@ -41,44 +41,45 @@ public class Main {
 				graph.exportDOT(lineNumber);
 				lineNumber++;
 				
-				try {
-					System.out.print("Output #01: ");
-					System.out.println(graph.distanceOf("ABC"));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				int distance;
+				
+				System.out.print("Output #01: ");
+				distance = graph.distanceOf("ABC");
+				if(distance>=0){
+					System.out.println(distance);
+				}else{
 					System.out.println("NO SUCH ROUTE");
 				}
 				
+				System.out.print("Output #02: ");
+				distance = graph.distanceOf("AD");
+				if(distance>=0){
+					System.out.println(distance);
+				}else{
+					System.out.println("NO SUCH ROUTE");
+				}
 				
-				try {
-					System.out.print("Output #02: ");
-					System.out.println(graph.distanceOf("AD"));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				System.out.print("Output #03: ");
+				distance = graph.distanceOf("ADC");
+				if(distance>=0){
+					System.out.println(distance);
+				}else{
 					System.out.println("NO SUCH ROUTE");
 				}
-
-				try {
-					System.out.print("Output #03: ");
-					System.out.println(graph.distanceOf("ADC"));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				
+				System.out.print("Output #04: ");
+				distance = graph.distanceOf("AEBCD");
+				if(distance>=0){
+					System.out.println(distance);
+				}else{
 					System.out.println("NO SUCH ROUTE");
 				}
-
-				try {
-					System.out.print("Output #04: ");
-					System.out.println(graph.distanceOf("AEBCD"));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println("NO SUCH ROUTE");
-				}
-
-				try {
-					System.out.print("Output #05: ");
-					System.out.println(graph.distanceOf("AED"));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
+				
+				System.out.print("Output #05: ");
+				distance = graph.distanceOf("AED");
+				if(distance>=0){
+					System.out.println(distance);
+				}else{
 					System.out.println("NO SUCH ROUTE");
 				}
 				

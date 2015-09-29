@@ -41,6 +41,16 @@
 			<version>LATEST</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>jbehave-junit-runner</artifactId>
+			<version>LATEST</version>
+		</dependency>
 		
 		<!-- Visualization -->
 		<dependency>

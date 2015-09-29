@@ -38,7 +38,7 @@ public class Test_Challenge_01 {
 		assertEquals(22, graph.distanceOf("AEBCD"));
 	}
 
-	@Test(expected=Exception.class)
+	@Test
 	public void testDistanceBetween_AED() throws Exception  {
 		assertEquals(-1, graph.distanceOf("AED"));
 	}
