@@ -34,13 +34,14 @@
 			<version>2.3</version>
 		</dependency>
 		
-		<!-- Test -->
+		<!-- JUnit Test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>LATEST</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- JBehave Test -->
 		<dependency>
 			<groupId>org.jbehave</groupId>
 			<artifactId>jbehave-core</artifactId>
@@ -51,6 +52,18 @@
 			<artifactId>jbehave-junit-runner</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Serenity Test -->
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-junit</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		
 		
 		<!-- Visualization -->
 		<dependency>
